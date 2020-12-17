@@ -63,6 +63,9 @@ func Initialize(telemetryDisabled bool, stepName string) {
 	}
 	//ToDo: register Logrus Hook
 
+	httpHook := &log.HTTPHook{CorrelationID: GeneralConfig.CorrelationID, pipelineURLHash: getPipelineURLHash(), buildURLHash: getBuildURLHash()}
+	log.RegisterHook(httpHook)
+
 }
 
 func getPipelineURLHash() string {
