@@ -96,7 +96,7 @@ func Send(customData *CustomData) {
 		BaseMetaData: baseMetaData,
 		CustomData:   *customData,
 	}
-
+	fmt.println("Inside telemetry.go")
 	// skip if telemetry is dieabled
 	if disabled {
 		return
