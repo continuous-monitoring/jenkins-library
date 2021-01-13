@@ -112,5 +112,5 @@ func Send(customData *CustomData) {
 	request.Path = "/piper"
 	request.RawQuery = data.toPayloadString()
 	log.Entry().WithField("request", request.String()).Debug("Sending data to GCP")
-	client.SendRequest(http.MethodGet, request.String(), nil, nil, nil)	
+	client.SendRequest(http.MethodPost, request.String(), nil, nil, nil)	
 }
