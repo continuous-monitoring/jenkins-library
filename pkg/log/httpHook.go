@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"net/http"
-
+	"fmt"
 	// piperhttp "github.com/SAP/jenkins-library/pkg/http"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
@@ -25,7 +25,7 @@ func (f *HTTPHook) Levels() []logrus.Level {
 
 // Fire creates a new event from the error and sends it to http endpoint
 func (f *HTTPHook) Fire(entry *logrus.Entry) error {
-
+ 	fmt.Println("Executing the http hook method to send data")
 	details := entry.Data
 	if details == nil {
 		details = logrus.Fields{}
