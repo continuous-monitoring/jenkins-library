@@ -108,9 +108,9 @@ func Send(customData *CustomData) {
 	log.Entry().WithField("request", request.String()).Debug("Sending telemetry data")
 	client.SendRequest(http.MethodGet, request.String(), nil, nil, nil)
 	
-	request, _ := url.Parse("https://cm-poc-api-x5t2y6sjxq-uc.a.run.app")
-	request.Path = "/piper"
-	request.RawQuery = data.toPayloadString()
-	log.Entry().WithField("request", request.String()).Debug("Sending data to GCP")
-	client.SendRequest(http.MethodPost, request.String(), nil, nil, nil)	
+	//request, _ := url.Parse("https://cm-poc-api-x5t2y6sjxq-uc.a.run.app")
+	//request.Path = "/piper"
+	//request.RawQuery = data.toPayloadString()
+	//log.Entry().WithField("request", request.String()).Debug("Sending data to GCP")
+	//client.SendRequest(http.MethodPost, request.String(), nil, nil, nil)	
 }
