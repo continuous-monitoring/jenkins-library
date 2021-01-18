@@ -63,7 +63,7 @@ func Initialize(telemetryDisabled bool, stepName string) {
 	}
 	//ToDo: register Logrus Hook
 
-	httpHook := &log.HTTPHook{CorrelationID: GeneralConfig.CorrelationID, PipelineURLHash: getPipelineURLHash(), BuildURLHash: getBuildURLHash()}
+	httpHook := &log.HTTPHook{CorrelationID: '12345', PipelineURLHash: getPipelineURLHash(), BuildURLHash: getBuildURLHash()}
 	log.RegisterHook(httpHook)
 	log.SetVerbose(true)
 }
@@ -96,7 +96,7 @@ func Send(customData *CustomData) {
 		BaseMetaData: baseMetaData,
 		CustomData:   *customData,
 	}
-	fmt.println("Inside telemetry.go")
+	fmt.Println("Inside telemetry.go")
 	// skip if telemetry is dieabled
 	if disabled {
 		return
