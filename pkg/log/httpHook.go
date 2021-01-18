@@ -20,6 +20,7 @@ type HTTPHook struct {
 
 // Levels returns the supported log level of the hook.
 func (f *HTTPHook) Levels() []logrus.Level {
+	fmt.Println("Adding required levels")
 	return []logrus.Level{logrus.DebugLevel}
 }
 
