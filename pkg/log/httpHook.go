@@ -13,9 +13,9 @@ import (
 // HTTPHook provides a logrus hook which sends log data to a HTTP endpoint
 // This can be used to provide data about the pipeline run for better monitoring
 type HTTPHook struct {
-	correlationID   string
-	pipelineURLHash string
-	buildURLHash    string
+	CorrelationID   string
+	PipelineURLHash string
+	BuildURLHash    string
 }
 
 // Levels returns the supported log level of the hook.
@@ -32,8 +32,8 @@ func (f *HTTPHook) Fire(entry *logrus.Entry) error {
 		details = logrus.Fields{}
 	}
 
-	details["pipelineURLHash"] = f.pipelineURLHash
-	details["buildURLHash"] = f.buildURLHash
+	details["pipelineURLHash"] = f.PipelineURLHash
+	details["buildURLHash"] = f.BuildURLHash
 
 	reqBody, _ := json.Marshal(details)
 
