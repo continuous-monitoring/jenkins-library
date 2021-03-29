@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-
+	"fmt"
 	// piperhttp "github.com/SAP/jenkins-library/pkg/http"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
@@ -14,27 +14,32 @@ import (
 // HTTPHook provides a logrus hook which sends log data to a HTTP endpoint
 // This can be used to provide data about the pipeline run for better monitoring
 type HTTPHook struct {
-	correlationID   string
-	pipelineURLHash string
-	buildURLHash    string
+	CorrelationID   string
+	PipelineURLHash string
+	BuildURLHash    string
 }
 
 // Levels returns the supported log level of the hook.
 func (f *HTTPHook) Levels() []logrus.Level {
+	fmt.Println("Adding required levels")
 	return []logrus.Level{logrus.DebugLevel}
 }
 
 // Fire creates a new event from the error and sends it to http endpoint
 func (f *HTTPHook) Fire(entry *logrus.Entry) error {
+<<<<<<< HEAD
 
 	fmt.Print("HTTP Hook Fired")
+=======
+ 	fmt.Println("Executing the http hook method to send data")
+>>>>>>> 49ef35c6c150bd7f9cda9cd84e8e45770bdb080a
 	details := entry.Data
 	if details == nil {
 		details = logrus.Fields{}
 	}
 
-	details["pipelineURLHash"] = f.pipelineURLHash
-	details["buildURLHash"] = f.buildURLHash
+	details["pipelineURLHash"] = f.PipelineURLHash
+	details["buildURLHash"] = f.BuildURLHash
 
 	reqBody, _ := json.Marshal(details)
 

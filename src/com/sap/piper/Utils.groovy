@@ -116,7 +116,7 @@ void pushToSWA(Map parameters, Map config) {
         parameters.eventType = parameters.get('eventType') ?: 'library-os'
         parameters.jobUrlSha1 = generateSha1(env.JOB_URL ?: '')
         parameters.buildUrlSha1 = generateSha1(env.BUILD_URL ?: '')
-
+        echo "notifying telemetry"
         Telemetry.notify(this, config, parameters)
     } catch (ignore) {
         // some error occured in telemetry reporting. This should not break anything though.
