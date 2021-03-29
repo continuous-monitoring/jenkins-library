@@ -3,6 +3,7 @@ package log
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	// piperhttp "github.com/SAP/jenkins-library/pkg/http"
@@ -26,6 +27,7 @@ func (f *HTTPHook) Levels() []logrus.Level {
 // Fire creates a new event from the error and sends it to http endpoint
 func (f *HTTPHook) Fire(entry *logrus.Entry) error {
 
+	fmt.Print("HTTP Hook Fired")
 	details := entry.Data
 	if details == nil {
 		details = logrus.Fields{}

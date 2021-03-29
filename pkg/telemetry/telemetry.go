@@ -1,10 +1,12 @@
 package telemetry
 
 import (
+	"bytes"
 	"crypto/sha1"
 	"fmt"
 	"os"
 	"time"
+	"io/ioutil"
 
 	"net/http"
 	"net/url"
@@ -63,8 +65,8 @@ func Initialize(telemetryDisabled bool, stepName string) {
 	}
 	//ToDo: register Logrus Hook
 
-	httpHook := &log.HTTPHook{CorrelationID: GeneralConfig.CorrelationID, pipelineURLHash: getPipelineURLHash(), buildURLHash: getBuildURLHash()}
-	log.RegisterHook(httpHook)
+	// httpHook := &log.HTTPHook{CorrelationID: GeneralConfig.CorrelationID, pipelineURLHash: getPipelineURLHash(), buildURLHash: getBuildURLHash()}
+	// log.RegisterHook(httpHook)
 
 }
 
@@ -106,5 +108,37 @@ func Send(customData *CustomData) {
 	request.Path = endpoint
 	request.RawQuery = data.toPayloadString()
 	log.Entry().WithField("request", request.String()).Debug("Sending telemetry data")
+
+	SendDataToSplunk(customData)
+
 	client.SendRequest(http.MethodGet, request.String(), nil, nil, nil)
+}
+
+func SendDataToSplunk( customData *CustomData) {
+
+	fmt.Println("Inside Splunk HTTP Method")
+
+	data := Data{
+		BaseData:     baseData,
+		BaseMetaData: baseMetaData,
+		CustomData:   *customData,
+	}
+	// tr := &http.Transport{TLSClientConfig: &tls.Config{InsecureSkipVerify: true}}
+	splunkClient := &http.Client{}
+	
+	req, err := http.NewRequest("POST", "https://cm-poc-api-x5t2y6sjxq-uc.a.run.app/piper", bytes.NewBuffer(data))
+
+	if err != nil {
+		fmt.Println(err)
+		// return errors.New("Error Sending Telemetry data to Splunk")
+	}
+
+	// req.Header.Add("Authorization", SplunkHook.splunkToken)
+	// req.Header.Add("Content-Type", "application/json")
+
+	res, err := splunkClient.Do(req)
+
+	defer res.Body.Close()
+	body, err := ioutil.ReadAll(res.Body)
+	fmt.Println(string(body))
 }
