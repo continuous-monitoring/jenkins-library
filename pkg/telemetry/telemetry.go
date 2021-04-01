@@ -132,7 +132,7 @@ func SendDataToSplunk( customData *CustomData) {
 	// tr := &http.Transport{TLSClientConfig: &tls.Config{InsecureSkipVerify: true}}
 	splunkClient := &http.Client{}
 	
-	req, err := http.NewRequest("POST", "https://cm-poc-api-x5t2y6sjxq-uc.a.run.app/piper", bytes.NewBuffer(data))
+	req, err := http.NewRequest("POST", "https://cm-poc-api-x5t2y6sjxq-uc.a.run.app/piper", data.toPayloadString())
 
 	if err != nil {
 		fmt.Println(err)
