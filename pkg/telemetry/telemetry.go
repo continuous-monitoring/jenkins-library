@@ -125,27 +125,38 @@ func SendDataToSplunk( customData *CustomData) {
 
 	fmt.Println("Inside Splunk HTTP Method")
 
-	data := Data{
-		BaseData:     baseData,
-		BaseMetaData: baseMetaData,
-		CustomData:   *customData,
+	data := MonitoringData{
+		PipelineUrlHash: getPipelineURLHash()
+		BuildUrlHash: getBuildURLHash()
+		StageName: customData.e_10
+		StepName: customData.e_3
+		ExitCode: customData.e_12
+		Duration: customData.e_11
+		ErrorCode: customData.e_12
+		ErrorCategory: customData.e_13
 	}
+
+	// data := Data{
+	// 	BaseData:     baseData,
+	// 	BaseMetaData: baseMetaData,
+	// 	CustomData:   *customData,
+	// }
 	// tr := &http.Transport{TLSClientConfig: &tls.Config{InsecureSkipVerify: true}}
 	splunkClient := &http.Client{}
 	fmt.Println(data.toPayloadString())
 	
-	fmt.Println("Base Data")
-	mar, err := json.Marshal(baseData)
+	fmt.Println("Data")
+	mar, err := json.Marshal(data)
 	fmt.Println(string(mar))
 	
-	mar, err = json.Marshal(baseMetaData)
+	// mar, err = json.Marshal(baseMetaData)
 	
-	fmt.Println("Base Meta Data")
-	fmt.Println(string(mar))
+	// fmt.Println("Base Meta Data")
+	// fmt.Println(string(mar))
 	
-	fmt.Println("Custom Data")
-	mar, err = json.Marshal(customData)
-	fmt.Println(string(mar))
+	// fmt.Println("Custom Data")
+	// mar, err = json.Marshal(customData)
+	// fmt.Println(string(mar))
 	
 	req, err := http.NewRequest("POST", "https://cm-poc-api-x5t2y6sjxq-uc.a.run.app/piper", strings.NewReader(data.toPayloadString()))
 

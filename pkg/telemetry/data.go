@@ -70,6 +70,19 @@ type Data struct {
 	CustomData
 }
 
+// Data definition for monitoring
+type MonitoringData struct {
+	PipelineUrlHash string
+	BuildUrlHash string
+	StageName string
+	StepName string
+	ExitCode string
+	Duration string
+	ErrorCode string
+	ErrorCategory string
+
+}
+
 // toMap transfers the data object into a map using JSON tags
 func (d *Data) toMap() (result map[string]string) {
 	jsonObj, _ := json.Marshal(d)
