@@ -126,14 +126,14 @@ func SendDataToSplunk( customData *CustomData) {
 	fmt.Println("Inside Splunk HTTP Method")
 
 	data := MonitoringData{
-		PipelineUrlHash: getPipelineURLHash()
-		BuildUrlHash: getBuildURLHash()
-		StageName: customData.e_10
-		StepName: customData.e_3
-		ExitCode: customData.e_12
-		Duration: customData.e_11
-		ErrorCode: customData.e_12
-		ErrorCategory: customData.e_13
+		PipelineUrlHash: getPipelineURLHash(),
+		BuildUrlHash: getBuildURLHash(),
+		// StageName: customData.e_10,
+		// StepName: customData.e_3,
+		// ExitCode: customData.e_12,
+		Duration: customData.Duration,
+		ErrorCode: customData.ErrorCode,
+		ErrorCategory: customData.ErrorCategory,
 	}
 
 	// data := Data{
@@ -142,11 +142,11 @@ func SendDataToSplunk( customData *CustomData) {
 	// 	CustomData:   *customData,
 	// }
 	// tr := &http.Transport{TLSClientConfig: &tls.Config{InsecureSkipVerify: true}}
-	splunkClient := &http.Client{}
-	fmt.Println(data.toPayloadString())
+	// splunkClient := &http.Client{}
+	// fmt.Println(data.toPayloadString())
 	
 	fmt.Println("Data")
-	mar, err := json.Marshal(data)
+	mar, _ := json.Marshal(data)
 	fmt.Println(string(mar))
 	
 	// mar, err = json.Marshal(baseMetaData)
@@ -158,19 +158,19 @@ func SendDataToSplunk( customData *CustomData) {
 	// mar, err = json.Marshal(customData)
 	// fmt.Println(string(mar))
 	
-	req, err := http.NewRequest("POST", "https://cm-poc-api-x5t2y6sjxq-uc.a.run.app/piper", strings.NewReader(data.toPayloadString()))
+	// req, err := http.NewRequest("POST", "https://cm-poc-api-x5t2y6sjxq-uc.a.run.app/piper", strings.NewReader(data.toPayloadString()))
 
-	if err != nil {
-		fmt.Println(err)
-		// return errors.New("Error Sending Telemetry data to Splunk")
-	}
+	// if err != nil {
+	// 	fmt.Println(err)
+	// 	// return errors.New("Error Sending Telemetry data to Splunk")
+	// }
 
-	// req.Header.Add("Authorization", SplunkHook.splunkToken)
-	// req.Header.Add("Content-Type", "application/json")
+	// // req.Header.Add("Authorization", SplunkHook.splunkToken)
+	// // req.Header.Add("Content-Type", "application/json")
 
-	res, err := splunkClient.Do(req)
+	// res, err := splunkClient.Do(req)
 
-	defer res.Body.Close()
-	body, err := ioutil.ReadAll(res.Body)
-	fmt.Println(string(body))
+	// defer res.Body.Close()
+	// body, err := ioutil.ReadAll(res.Body)
+	// fmt.Println(string(body))
 }
