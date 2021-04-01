@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"fmt"
 	// piperhttp "github.com/SAP/jenkins-library/pkg/http"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
