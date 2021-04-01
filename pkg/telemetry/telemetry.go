@@ -10,6 +10,7 @@ import (
  	"strings"
 	"net/http"
 	"net/url"
+	"encoding/json"
 
 	piperhttp "github.com/SAP/jenkins-library/pkg/http"
 	"github.com/SAP/jenkins-library/pkg/log"
