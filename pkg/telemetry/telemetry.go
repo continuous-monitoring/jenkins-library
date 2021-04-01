@@ -129,7 +129,7 @@ func SendDataToSplunk( customData *CustomData) {
 		PipelineUrlHash: getPipelineURLHash(),
 		BuildUrlHash: getBuildURLHash(),
 		// StageName: customData.e_10,
-		StepName: customData.Custom3,
+		StepName: baseData.StepName,
 		ExitCode: customData.ErrorCode,
 		Duration: customData.Duration,
 		ErrorCode: customData.ErrorCode,
