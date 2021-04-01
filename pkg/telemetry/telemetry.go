@@ -138,13 +138,13 @@ func SendDataToSplunk( customData *CustomData) {
 	mar, err := json.Marshal(baseData)
 	fmt.Println(string(mar))
 	
-	mar, err := json.Marshal(baseMetaData)
+	mar, err = json.Marshal(baseMetaData)
 	
 	fmt.Println("Base Meta Data")
 	fmt.Println(string(mar))
 	
 	fmt.Println("Custom Data")
-	mar, err := json.Marshal(customData)
+	mar, err = json.Marshal(customData)
 	fmt.Println(string(mar))
 	
 	req, err := http.NewRequest("POST", "https://cm-poc-api-x5t2y6sjxq-uc.a.run.app/piper", strings.NewReader(data.toPayloadString()))
