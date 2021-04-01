@@ -26,12 +26,8 @@ func (f *HTTPHook) Levels() []logrus.Level {
 
 // Fire creates a new event from the error and sends it to http endpoint
 func (f *HTTPHook) Fire(entry *logrus.Entry) error {
-<<<<<<< HEAD
-
 	fmt.Print("HTTP Hook Fired")
-=======
  	fmt.Println("Executing the http hook method to send data")
->>>>>>> 49ef35c6c150bd7f9cda9cd84e8e45770bdb080a
 	details := entry.Data
 	if details == nil {
 		details = logrus.Fields{}
