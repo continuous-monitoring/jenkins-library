@@ -1,7 +1,7 @@
 package telemetry
 
 import (
-	"bytes"
+	// "bytes"
 	"crypto/sha1"
 	"fmt"
 	"os"
