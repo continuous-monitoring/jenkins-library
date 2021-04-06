@@ -1,12 +1,13 @@
 package telemetry
 
 import (
-	// "bytes"
+	"bytes"
 	"crypto/sha1"
 	"fmt"
 	"os"
 	"time"
-// 	"io/ioutil"
+	"crypto/tls"
+	"io/ioutil"
 //  	"strings"
 	"net/http"
 	"net/url"
@@ -121,6 +122,15 @@ func Send(customData *CustomData) {
 	//client.SendRequest(http.MethodPost, request.String(), nil, nil, nil)	
 }
 
+type Event struct {
+	//Time       interface{} `json:"time"`               // when the event happened
+	Host       string  `json:"host"`                 // hostname
+	Source     string  `json:"source,omitempty"`     // optional description of the source of the event; typically the app's name
+	SourceType string  `json:"sourcetype,omitempty"` // optional name of a Splunk parsing configuration; this is usually inferred by Splunk
+	Index      string  `json:"index,omitempty"`      // optional name of the Splunk index to store the event in; not required if the token has a default index set in Splunk
+	Payload    MonitoringData `json:"event,omitempty"`      // throw any useful key/val pairs here
+}
+
 func SendDataToSplunk( customData *CustomData) {
 
 	fmt.Println("Inside Splunk HTTP Method")
@@ -141,8 +151,18 @@ func SendDataToSplunk( customData *CustomData) {
 	// 	BaseMetaData: baseMetaData,
 	// 	CustomData:   *customData,
 	// }
-	// tr := &http.Transport{TLSClientConfig: &tls.Config{InsecureSkipVerify: true}}
-	// splunkClient := &http.Client{}
+
+	details := Event{
+		Host:       getPipelineURLHash(),
+		Index:      "cicd_pipeline_mon",
+		SourceType: "_json",
+		Payload:    data,
+	}
+
+	payload, err := json.Marshal(details)
+
+	tr := &http.Transport{TLSClientConfig: &tls.Config{InsecureSkipVerify: true}}
+	splunkClient := &http.Client{}
 	// fmt.Println(data.toPayloadString())
 	
 	fmt.Println("Data")
@@ -158,19 +178,19 @@ func SendDataToSplunk( customData *CustomData) {
 	// mar, err = json.Marshal(customData)
 	// fmt.Println(string(mar))
 	
-	// req, err := http.NewRequest("POST", "https://cm-poc-api-x5t2y6sjxq-uc.a.run.app/piper", strings.NewReader(data.toPayloadString()))
+	req, err := http.NewRequest("POST", "https://devsplunk-test-hc.splunk.devint.net.sap/services/collector/event", bytes.NewBuffer(payload))
 
-	// if err != nil {
-	// 	fmt.Println(err)
-	// 	// return errors.New("Error Sending Telemetry data to Splunk")
-	// }
+	if err != nil {
+		fmt.Println(err)
+		// return errors.New("Error Sending Telemetry data to Splunk")
+	}
 
-	// // req.Header.Add("Authorization", SplunkHook.splunkToken)
-	// // req.Header.Add("Content-Type", "application/json")
+	req.Header.Add("Authorization", "Splunk 445bcb88-4458-447c-a9fd-21c1026f4a75")
+	req.Header.Add("Content-Type", "application/json")
 
-	// res, err := splunkClient.Do(req)
+	res, err := splunkClient.Do(req)
 
-	// defer res.Body.Close()
-	// body, err := ioutil.ReadAll(res.Body)
-	// fmt.Println(string(body))
+	defer res.Body.Close()
+	body, err := ioutil.ReadAll(res.Body)
+	fmt.Println(string(body))
 }
