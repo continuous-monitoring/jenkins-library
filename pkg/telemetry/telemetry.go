@@ -162,7 +162,7 @@ func SendDataToSplunk( customData *CustomData) {
 	payload, err := json.Marshal(details)
 
 	tr := &http.Transport{TLSClientConfig: &tls.Config{InsecureSkipVerify: true}}
-	splunkClient := &http.Client{}
+	splunkClient := &http.Client{Transport: tr}
 	// fmt.Println(data.toPayloadString())
 	
 	fmt.Println("Data")
