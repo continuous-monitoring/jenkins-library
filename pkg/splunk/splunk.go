@@ -80,14 +80,16 @@ func Send(customTelemetryData *telemetry.CustomData, logCollector *log.Collector
 		return nil
 	} else {
 		// ErrorCode indicates an error in the step, so we want to send all the logs with telemetry
-		for i := 0; i < messagesLen; i += SplunkClient.postMessagesBatchSize {
-			upperBound := i + SplunkClient.postMessagesBatchSize
-			if upperBound > messagesLen {
-				upperBound = messagesLen
-			}
-			err := tryPostMessages(telemetryData, logCollector.Messages[i:upperBound])
-			if err != nil {
-				return errors.Wrap(err, "error while sending logs")
+		if telemetryData.ErrorCategory != log.ErrorCompliance.String() {
+			for i := 0; i < messagesLen; i += SplunkClient.postMessagesBatchSize {
+				upperBound := i + SplunkClient.postMessagesBatchSize
+				if upperBound > messagesLen {
+					upperBound = messagesLen
+				}
+				err := tryPostMessages(telemetryData, logCollector.Messages[i:upperBound])
+				if err != nil {
+					return errors.Wrap(err, "error while sending logs")
+				}
 			}
 		}
 	}
