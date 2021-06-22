@@ -59,7 +59,7 @@ func Initialize(correlationID, dsn, token, index string, sendLogs bool) error {
 		splunkDsn:             dsn,
 		splunkIndex:           index,
 		correlationID:         correlationID,
-		postMessagesBatchSize: 1000,
+		postMessagesBatchSize: 100000,
 		sendLogs:              sendLogs,
 	}
 	return nil
@@ -70,7 +70,7 @@ func Send(customTelemetryData *telemetry.CustomData, logCollector *log.Collector
 	telemetryData := prepareTelemetry(*customTelemetryData)
 	messagesLen := len(logCollector.Messages)
 	// TODO: Logic for errorCategory (undefined, service, infrastructure)
-	if telemetryData.ErrorCode == "0" || (telemetryData.ErrorCode == "1" && !SplunkClient.sendLogs) || (telemetryData.ErrorCode == "1" && telemetryData.ErrorCategory == log.ErrorCompliance.String() || telemetryData.ErrorCategory == log.ErrorBuild.String() || telemetryData.ErrorCategory == log.ErrorCustom.String()) {
+	if telemetryData.ErrorCode == "0" || (telemetryData.ErrorCode == "1" && !SplunkClient.sendLogs) {
 		// Either Successful run, we only send the telemetry data, no logging information
 		// OR Failure run and we do not want to send the logs
 		err := tryPostMessages(telemetryData, []log.Message{})
