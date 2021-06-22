@@ -70,7 +70,7 @@ func Send(customTelemetryData *telemetry.CustomData, logCollector *log.Collector
 	telemetryData := prepareTelemetry(*customTelemetryData)
 	messagesLen := len(logCollector.Messages)
 	// TODO: Logic for errorCategory (undefined, service, infrastructure)
-	if telemetryData.ErrorCode == "0" || (telemetryData.ErrorCode == "1" && !SplunkClient.sendLogs) {
+	if telemetryData.ErrorCode == "0" || (telemetryData.ErrorCode == "1" && !SplunkClient.sendLogs) || (telemetryData.ErrorCode == "1" && telemetryData.ErrorCategory == log.ErrorCompliance.String() || telemetryData.ErrorCategory == log.ErrorBuild.String() || telemetryData.ErrorCategory == log.ErrorCustom.String()) {
 		// Either Successful run, we only send the telemetry data, no logging information
 		// OR Failure run and we do not want to send the logs
 		err := tryPostMessages(telemetryData, []log.Message{})
@@ -80,16 +80,14 @@ func Send(customTelemetryData *telemetry.CustomData, logCollector *log.Collector
 		return nil
 	} else {
 		// ErrorCode indicates an error in the step, so we want to send all the logs with telemetry
-		if telemetryData.ErrorCategory != log.ErrorCompliance.String() {
-			for i := 0; i < messagesLen; i += SplunkClient.postMessagesBatchSize {
-				upperBound := i + SplunkClient.postMessagesBatchSize
-				if upperBound > messagesLen {
-					upperBound = messagesLen
-				}
-				err := tryPostMessages(telemetryData, logCollector.Messages[i:upperBound])
-				if err != nil {
-					return errors.Wrap(err, "error while sending logs")
-				}
+		for i := 0; i < messagesLen; i += SplunkClient.postMessagesBatchSize {
+			upperBound := i + SplunkClient.postMessagesBatchSize
+			if upperBound > messagesLen {
+				upperBound = messagesLen
+			}
+			err := tryPostMessages(telemetryData, logCollector.Messages[i:upperBound])
+			if err != nil {
+				return errors.Wrap(err, "error while sending logs")
 			}
 		}
 	}
