@@ -173,15 +173,16 @@ func tryPostMessages(telemetryData MonitoringData, messages []log.Message) error
 	}
 
 	resp, err := SplunkClient.splunkClient.SendRequest(http.MethodPost, SplunkClient.splunkDsn, bytes.NewBuffer(payload), nil, nil)
-
+	log.Entry().Warnf("Send request done")
 	if resp.StatusCode != http.StatusOK {
 		rdr := io.LimitReader(resp.Body, 1000)
 		body, err := ioutil.ReadAll(rdr)
 		if err != nil {
-			return errors.Wrap(err, "Error reading response body")
+			return errors.Wrapf(err, "Error reading response body")
 		}
 		return errors.Wrapf(err, "%v: Splunk logging failed - %v", resp.Status, string(body))
 	}
+	log.Entry().Warnf("status code handling done")
 
 	if err != nil {
 		return errors.Wrap(err, "error sending the requests to Splunk")
