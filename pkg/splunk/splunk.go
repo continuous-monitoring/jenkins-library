@@ -3,7 +3,6 @@ package splunk
 import (
 	"bytes"
 	"encoding/json"
-	"io"
 	"io/ioutil"
 	"net/http"
 	"strings"
@@ -175,12 +174,12 @@ func tryPostMessages(telemetryData MonitoringData, messages []log.Message) error
 	resp, err := SplunkClient.splunkClient.SendRequest(http.MethodPost, SplunkClient.splunkDsn, bytes.NewBuffer(payload), nil, nil)
 	log.Entry().Warnf("Send request done")
 	if resp.StatusCode != http.StatusOK {
-		rdr := io.LimitReader(resp.Body, 1000)
-		body, err := ioutil.ReadAll(rdr)
-		if err != nil {
-			return errors.Wrapf(err, "Error reading response body")
-		}
-		return errors.Wrapf(err, "%v: Splunk logging failed - %v", resp.Status, string(body))
+		// rdr := io.LimitReader(resp.Body, 1000)
+		// body, err := ioutil.ReadAll(rdr)
+		// if err != nil {
+		// 	return errors.Wrapf(err, "Error reading response body")
+		// }
+		return errors.Wrapf(err, "Splunk logging failed - %v", resp.Status)
 	}
 	log.Entry().Warnf("status code handling done")
 
