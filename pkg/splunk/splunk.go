@@ -59,7 +59,7 @@ func Initialize(correlationID, dsn, token, index string, sendLogs bool) error {
 		splunkDsn:             dsn,
 		splunkIndex:           index,
 		correlationID:         correlationID,
-		postMessagesBatchSize: 100000,
+		postMessagesBatchSize: 1000,
 		sendLogs:              sendLogs,
 	}
 	return nil
@@ -174,6 +174,15 @@ func tryPostMessages(telemetryData MonitoringData, messages []log.Message) error
 
 	resp, err := SplunkClient.splunkClient.SendRequest(http.MethodPost, SplunkClient.splunkDsn, bytes.NewBuffer(payload), nil, nil)
 
+	if resp.StatusCode != http.StatusOK {
+		rdr := io.LimitReader(resp.Body, 1000)
+		body, err := ioutil.ReadAll(rdr)
+		if err != nil {
+			return errors.Wrap(err, "Error reading response body")
+		}
+		return errors.Wrapf(err, "%v: Splunk logging failed - %v", resp.Status, string(body))
+	}
+
 	if err != nil {
 		return errors.Wrap(err, "error sending the requests to Splunk")
 	}
@@ -184,13 +193,6 @@ func tryPostMessages(telemetryData MonitoringData, messages []log.Message) error
 			errors.Wrap(err, "closing response body failed")
 		}
 	}()
-	if resp.StatusCode != http.StatusOK {
-		rdr := io.LimitReader(resp.Body, 1000)
-		body, err := ioutil.ReadAll(rdr)
-		if err != nil {
-			return errors.Wrap(err, "Error reading response body")
-		}
-		return errors.Wrapf(err, "%v: Splunk logging failed - %v", resp.Status, string(body))
-	}
+
 	return nil
 }
