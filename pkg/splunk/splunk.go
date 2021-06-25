@@ -179,7 +179,7 @@ func tryPostMessages(telemetryData MonitoringData, messages []log.Message) error
 		// if err != nil {
 		// 	return errors.Wrapf(err, "Error reading response body")
 		// }
-		return errors.Wrapf(err, "Splunk logging failed - %v", resp.Status)
+		log.Entry().Errorf("Splunk logging failed - %v", resp.Status)
 	}
 	log.Entry().Warnf("status code handling done")
 
