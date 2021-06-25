@@ -58,7 +58,7 @@ func Initialize(correlationID, dsn, token, index string, sendLogs bool) error {
 		splunkDsn:             dsn,
 		splunkIndex:           index,
 		correlationID:         correlationID,
-		postMessagesBatchSize: 50,
+		postMessagesBatchSize: 10,
 		sendLogs:              sendLogs,
 	}
 	return nil
