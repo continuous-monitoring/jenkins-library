@@ -68,6 +68,14 @@ func Send(customTelemetryData *telemetry.CustomData, logCollector *log.Collector
 	// Sends telemetry and or additionally logging data to Splunk
 	telemetryData := prepareTelemetry(*customTelemetryData)
 	messagesLen := len(logCollector.Messages)
+
+	// Just printing the messages to compare it with groovy logic
+	log.Entry().Infof("----------------------------START:PRINTING LOG TO BE SENT(GO)-----------------------")
+	for j := 0; j < messagesLen; j += 1 {
+		log.Entry().Infof(logCollector.Messages[j].Message)
+	}
+	log.Entry().Infof("----------------------------END:PRINTING LOG TO BE SENT(GO)-----------------------")
+
 	// TODO: Logic for errorCategory (undefined, service, infrastructure)
 	if telemetryData.ErrorCode == "0" || (telemetryData.ErrorCode == "1" && !SplunkClient.sendLogs) {
 		// Either Successful run, we only send the telemetry data, no logging information
@@ -172,8 +180,7 @@ func tryPostMessages(telemetryData MonitoringData, messages []log.Message) error
 	}
 
 	resp, err := SplunkClient.splunkClient.SendRequest(http.MethodPost, SplunkClient.splunkDsn, bytes.NewBuffer(payload), nil, nil)
-	log.Entry().Warnf("Send request done")
-	log.Entry().Debugf("%v", resp.StatusCode)
+
 	if resp.StatusCode != http.StatusOK {
 		// rdr := io.LimitReader(resp.Body, 1000)
 		// body, err := ioutil.ReadAll(rdr)
