@@ -26,6 +26,7 @@ class commonPipelineEnvironment implements Serializable {
 
     //stores the gitCommitId as well as additional git information for the build during pipeline run
     String gitCommitId
+    String headCommitID
     String gitCommitMessage
     String gitSshUrl
     String gitHttpsUrl
@@ -84,6 +85,7 @@ class commonPipelineEnvironment implements Serializable {
         containerProperties = [:]
 
         gitCommitId = null
+        headCommitID = null
         gitCommitMessage = null
         gitSshUrl = null
         gitHttpsUrl = null
@@ -198,6 +200,7 @@ class commonPipelineEnvironment implements Serializable {
         [filename: '.pipeline/commonPipelineEnvironment/github/repository', property: 'githubRepo'],
         [filename: '.pipeline/commonPipelineEnvironment/git/branch', property: 'gitBranch'],
         [filename: '.pipeline/commonPipelineEnvironment/git/commitId', property: 'gitCommitId'],
+        [filename: '.pipeline/commonPipelineEnvironment/git/headCommitID', property: 'headCommitID'],
         [filename: '.pipeline/commonPipelineEnvironment/git/commitMessage', property: 'gitCommitMessage'],
         [filename: '.pipeline/commonPipelineEnvironment/mtarFilePath', property: 'mtarFilePath'],
         [filename: '.pipeline/commonPipelineEnvironment/abap/addonDescriptor', property: 'abapAddonDescriptor'],
