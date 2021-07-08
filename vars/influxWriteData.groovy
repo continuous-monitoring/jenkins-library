@@ -89,7 +89,7 @@ void call(Map parameters = [:]) {
             .mixinStageConfig(script.commonPipelineEnvironment, stageName, STEP_CONFIG_KEYS)
             .mixin([
                 artifactVersion: script.commonPipelineEnvironment.getArtifactVersion(),
-                commitHash: script.commonPipelineEnvironment.getCommitHash(),
+                commitHash: script.commonPipelineEnvironment.getArtifactVersion(),
                 influxPrefix: script.commonPipelineEnvironment.getGithubOrg() && script.commonPipelineEnvironment.getGithubRepo()
                     ? "${script.commonPipelineEnvironment.getGithubOrg()}_${script.commonPipelineEnvironment.getGithubRepo()}"
                     : null
