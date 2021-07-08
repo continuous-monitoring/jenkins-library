@@ -19,6 +19,10 @@ import groovy.transform.Field
      */
     'artifactVersion',
     /**
+     * Defines the version of the current artifact. Defaults to `commonPipelineEnvironment.getCommitHash()`
+     */
+    'commitHash',
+    /**
      * Defines custom data (map of key-value pairs) to be written to Influx into measurement `jenkins_custom_data`. Defaults to `commonPipelineEnvironment.getInfluxCustomData()`
      */
     'customData',
@@ -85,6 +89,7 @@ void call(Map parameters = [:]) {
             .mixinStageConfig(script.commonPipelineEnvironment, stageName, STEP_CONFIG_KEYS)
             .mixin([
                 artifactVersion: script.commonPipelineEnvironment.getArtifactVersion(),
+                commitHash: script.commonPipelineEnvironment.getCommitHash(),
                 influxPrefix: script.commonPipelineEnvironment.getGithubOrg() && script.commonPipelineEnvironment.getGithubRepo()
                     ? "${script.commonPipelineEnvironment.getGithubOrg()}_${script.commonPipelineEnvironment.getGithubRepo()}"
                     : null
