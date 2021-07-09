@@ -383,6 +383,7 @@ spec:
               - name: jobTrigger
             tags:
               - name: artifactVersion
+              - name: commitHash
               - name: deployUser
               - name: deployResult
               - name: cfApiEndpoint

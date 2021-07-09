@@ -55,6 +55,7 @@ type cloudFoundryDeployInflux struct {
 		}
 		tags struct {
 			artifactVersion string
+			commitHash      string
 			deployUser      string
 			deployResult    string
 			cfAPIEndpoint   string
@@ -75,6 +76,7 @@ func (i *cloudFoundryDeployInflux) persist(path, resourceName string) {
 		{valType: config.InfluxField, measurement: "deployment_data", name: "deployTime", value: i.deployment_data.fields.deployTime},
 		{valType: config.InfluxField, measurement: "deployment_data", name: "jobTrigger", value: i.deployment_data.fields.jobTrigger},
 		{valType: config.InfluxTag, measurement: "deployment_data", name: "artifactVersion", value: i.deployment_data.tags.artifactVersion},
+		{valType: config.InfluxTag, measurement: "deployment_data", name: "commitHash", value: i.deployment_data.tags.commitHash},
 		{valType: config.InfluxTag, measurement: "deployment_data", name: "deployUser", value: i.deployment_data.tags.deployUser},
 		{valType: config.InfluxTag, measurement: "deployment_data", name: "deployResult", value: i.deployment_data.tags.deployResult},
 		{valType: config.InfluxTag, measurement: "deployment_data", name: "cfApiEndpoint", value: i.deployment_data.tags.cfAPIEndpoint},
@@ -530,7 +532,7 @@ func cloudFoundryDeployMetadata() config.StepData {
 						Name: "influx",
 						Type: "influx",
 						Parameters: []map[string]interface{}{
-							{"Name": "deployment_data"}, {"fields": []map[string]string{{"name": "artifactUrl"}, {"name": "deployTime"}, {"name": "jobTrigger"}}}, {"tags": []map[string]string{{"name": "artifactVersion"}, {"name": "deployUser"}, {"name": "deployResult"}, {"name": "cfApiEndpoint"}, {"name": "cfOrg"}, {"name": "cfSpace"}}},
+							{"Name": "deployment_data"}, {"fields": []map[string]string{{"name": "artifactUrl"}, {"name": "deployTime"}, {"name": "jobTrigger"}}}, {"tags": []map[string]string{{"name": "artifactVersion"}, {"name": "commitHash"}, {"name": "deployUser"}, {"name": "deployResult"}, {"name": "cfApiEndpoint"}, {"name": "cfOrg"}, {"name": "cfSpace"}}},
 						},
 					},
 				},
