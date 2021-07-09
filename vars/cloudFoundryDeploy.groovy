@@ -667,6 +667,7 @@ private void reportToInflux(script, config, deploySuccess, JenkinsUtils jenkinsU
     ]]
     def deploymentDataTags = [deployment_data: [
         artifactVersion: script.commonPipelineEnvironment.getArtifactVersion(),
+        commitHash: script.commonPipelineEnvironment.getHeadCommitID(),
         deployUser: deployUser,
         deployResult: deploySuccess?'SUCCESS':'FAILURE',
         cfApiEndpoint: config.cloudFoundry.apiEndpoint,
