@@ -115,7 +115,7 @@ void call(Map parameters = [:]) {
 
         echo """[${STEP_NAME}]----------------------------------------------------------
 Artifact version: ${config.artifactVersion}
-Commit Hash: ${config.getHeadCommitID}
+Commit Hash: ${config.commitHash}
 Influx server: ${config.influxServer}
 Influx prefix: ${config.influxPrefix}
 InfluxDB data: ${config.customData}
