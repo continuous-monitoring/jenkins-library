@@ -661,13 +661,13 @@ private void reportToInflux(script, config, deploySuccess, JenkinsUtils jenkinsU
     def triggerCause = jenkinsUtils.isJobStartedByUser()?'USER':(jenkinsUtils.isJobStartedByTimer()?'TIMER': 'OTHER')
 
     def deploymentData = [deployment_data: [
-        artifactUrl: 'n/a', //might be added later on during pipeline run (written to commonPipelineEnvironment)
+        artifactUrl: 'Somethingshouldbehere', //might be added later on during pipeline run (written to commonPipelineEnvironment)
         deployTime: timeFinished,
+        commitHash: script.commonPipelineEnvironment.getHeadCommitID(),
         jobTrigger: triggerCause
     ]]
     def deploymentDataTags = [deployment_data: [
         artifactVersion: script.commonPipelineEnvironment.getArtifactVersion(),
-        commitHash: script.commonPipelineEnvironment.getHeadCommitID(),
         deployUser: deployUser,
         deployResult: deploySuccess?'SUCCESS':'FAILURE',
         cfApiEndpoint: config.cloudFoundry.apiEndpoint,
