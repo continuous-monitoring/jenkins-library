@@ -19,7 +19,7 @@ import groovy.transform.Field
      */
     'artifactVersion',
     /**
-     * Defines the version of the current artifact. Defaults to `commonPipelineEnvironment.getCommitHash()`
+     * Defines the commit hash of the current build. Defaults to `commonPipelineEnvironment.getCommitHash()`
      */
     'commitHash',
     /**
@@ -115,6 +115,7 @@ void call(Map parameters = [:]) {
 
         echo """[${STEP_NAME}]----------------------------------------------------------
 Artifact version: ${config.artifactVersion}
+Commit Hash: ${config.getHeadCommitID}
 Influx server: ${config.influxServer}
 Influx prefix: ${config.influxPrefix}
 InfluxDB data: ${config.customData}
