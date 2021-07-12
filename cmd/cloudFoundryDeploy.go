@@ -174,6 +174,7 @@ func prepareInflux(success bool, config *cloudFoundryDeployOptions, influxData *
 	}
 
 	influxData.deployment_data.tags.artifactVersion = config.ArtifactVersion
+	influxData.deployment_data.tags.commitHash = config.CommitHash
 	influxData.deployment_data.tags.deployUser = config.Username
 	influxData.deployment_data.tags.deployResult = result
 	influxData.deployment_data.tags.cfAPIEndpoint = config.APIEndpoint
