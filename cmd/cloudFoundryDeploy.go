@@ -174,7 +174,6 @@ func prepareInflux(success bool, config *cloudFoundryDeployOptions, influxData *
 	}
 
 	influxData.deployment_data.tags.artifactVersion = config.ArtifactVersion
-	influxData.deployment_data.tags.commitHash = config.CommitHash
 	influxData.deployment_data.tags.deployUser = config.Username
 	influxData.deployment_data.tags.deployResult = result
 	influxData.deployment_data.tags.cfAPIEndpoint = config.APIEndpoint
@@ -183,6 +182,7 @@ func prepareInflux(success bool, config *cloudFoundryDeployOptions, influxData *
 
 	// n/a (literally) is also reported in groovy
 	influxData.deployment_data.fields.artifactURL = "n/a"
+	influxData.deployment_data.fields.commitHash= config.CommitHash
 
 	influxData.deployment_data.fields.deployTime = strings.ToUpper(_now().Format("Jan 02 2006 15:04:05"))
 

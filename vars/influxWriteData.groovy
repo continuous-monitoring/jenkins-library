@@ -19,7 +19,7 @@ import groovy.transform.Field
      */
     'artifactVersion',
     /**
-     * Defines the commit hash of the current build. Defaults to `commonPipelineEnvironment.getCommitHash()`
+     * Defines the commit hash of the current build. Defaults to `commonPipelineEnvironment.getHeadCommitId(),`
      */
     'commitHash',
     /**
