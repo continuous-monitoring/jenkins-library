@@ -267,7 +267,7 @@ func cloudFoundryDeployMetadata() config.StepData {
 						ResourceRef: []config.ResourceReference{
 							{
 								Name:  "commonPipelineEnvironment",
-								Param: "commitHash",
+								Param: "git/headCommitID",
 							},
 						},
 						Scope:     []string{"PARAMETERS", "STAGES", "STEPS", "GENERAL"},
