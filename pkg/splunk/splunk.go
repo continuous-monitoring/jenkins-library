@@ -147,7 +147,7 @@ func prepareTelemetry(customTelemetryData telemetry.CustomData) MonitoringData {
 		Branch:            readCommonPipelineEnvironment("git/branch"),
 		GitOwner:          readCommonPipelineEnvironment("github/owner"),
 		GitRepository:     readCommonPipelineEnvironment("github/repository"),
-		BuildURLHashLabel: tData.BuildURLHashLabel,
+		BuildURLHashLabel: tData.PipelineURLHash,
 	}
 }
 
