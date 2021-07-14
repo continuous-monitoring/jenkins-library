@@ -132,7 +132,7 @@ type MonitoringData struct {
 
 func prepareTelemetry(customTelemetryData telemetry.CustomData) MonitoringData {
 	tData := telemetry.GetData(&customTelemetryData)
-	log.Entry().Warnf(tData.BuildURLHashLabel)
+	log.Entry().Warnf("In the changed field repo")
 	return MonitoringData{
 		PipelineUrlHash:   tData.PipelineURLHash,
 		BuildUrlHash:      tData.BuildURLHash,
