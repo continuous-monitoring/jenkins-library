@@ -127,6 +127,7 @@ type MonitoringData struct {
 	Branch          string `json:"Branch,omitempty"`
 	GitOwner        string `json:"GitOwner,omitempty"`
 	GitRepository   string `json:"GitRepository,omitempty"`
+	newField        string
 }
 
 func prepareTelemetry(customTelemetryData telemetry.CustomData) MonitoringData {
@@ -146,6 +147,7 @@ func prepareTelemetry(customTelemetryData telemetry.CustomData) MonitoringData {
 		Branch:          readCommonPipelineEnvironment("git/branch"),
 		GitOwner:        readCommonPipelineEnvironment("github/owner"),
 		GitRepository:   readCommonPipelineEnvironment("github/repository"),
+		newField:        "new Value",
 	}
 }
 
