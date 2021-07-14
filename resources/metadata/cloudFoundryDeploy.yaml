@@ -63,7 +63,7 @@ spec:
         mandatory: false
         resourceRef:
           - name: commonPipelineEnvironment
-            param: git/headCommitID
+            param: git/headCommitId
       - name: cfHome
         type: string
         description: "The cf home folder used by the cf cli. If not provided the default assumed by the cf cli is used."
