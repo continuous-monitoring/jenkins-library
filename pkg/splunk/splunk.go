@@ -114,40 +114,40 @@ func readCommonPipelineEnvironment(filePath string) string {
 
 // MonitoringData definition for monitoring
 type MonitoringData struct {
-	PipelineUrlHash string `json:"PipelineUrlHash,omitempty"`
-	BuildUrlHash    string `json:"BuildUrlHash,omitempty"`
-	StageName       string `json:"StageName,omitempty"`
-	StepName        string `json:"StepName,omitempty"`
-	ExitCode        string `json:"ExitCode,omitempty"`
-	Duration        string `json:"Duration,omitempty"`
-	ErrorCode       string `json:"ErrorCode,omitempty"`
-	ErrorCategory   string `json:"ErrorCategory,omitempty"`
-	CorrelationID   string `json:"CorrelationID,omitempty"`
-	CommitHash      string `json:"CommitHash,omitempty"`
-	Branch          string `json:"Branch,omitempty"`
-	GitOwner        string `json:"GitOwner,omitempty"`
-	GitRepository   string `json:"GitRepository,omitempty"`
-	newField        string
+	PipelineUrlHash   string `json:"PipelineUrlHash,omitempty"`
+	BuildUrlHash      string `json:"BuildUrlHash,omitempty"`
+	StageName         string `json:"StageName,omitempty"`
+	StepName          string `json:"StepName,omitempty"`
+	ExitCode          string `json:"ExitCode,omitempty"`
+	Duration          string `json:"Duration,omitempty"`
+	ErrorCode         string `json:"ErrorCode,omitempty"`
+	ErrorCategory     string `json:"ErrorCategory,omitempty"`
+	CorrelationID     string `json:"CorrelationID,omitempty"`
+	CommitHash        string `json:"CommitHash,omitempty"`
+	Branch            string `json:"Branch,omitempty"`
+	GitOwner          string `json:"GitOwner,omitempty"`
+	GitRepository     string `json:"GitRepository,omitempty"`
+	BuildURLHashLabel string `json:"BuildURLHashLabel,omitempty"`
 }
 
 func prepareTelemetry(customTelemetryData telemetry.CustomData) MonitoringData {
 	tData := telemetry.GetData(&customTelemetryData)
-
+	log.Entry().Warnf(tData.BuildURLHashLabel)
 	return MonitoringData{
-		PipelineUrlHash: tData.PipelineURLHash,
-		BuildUrlHash:    tData.BuildURLHash,
-		StageName:       tData.StageName,
-		StepName:        tData.BaseData.StepName,
-		ExitCode:        tData.CustomData.ErrorCode,
-		Duration:        tData.CustomData.Duration,
-		ErrorCode:       tData.CustomData.ErrorCode,
-		ErrorCategory:   tData.CustomData.ErrorCategory,
-		CorrelationID:   SplunkClient.correlationID,
-		CommitHash:      readCommonPipelineEnvironment("git/headCommitId"),
-		Branch:          readCommonPipelineEnvironment("git/branch"),
-		GitOwner:        readCommonPipelineEnvironment("github/owner"),
-		GitRepository:   readCommonPipelineEnvironment("github/repository"),
-		newField:        "new Value",
+		PipelineUrlHash:   tData.PipelineURLHash,
+		BuildUrlHash:      tData.BuildURLHash,
+		StageName:         tData.StageName,
+		StepName:          tData.BaseData.StepName,
+		ExitCode:          tData.CustomData.ErrorCode,
+		Duration:          tData.CustomData.Duration,
+		ErrorCode:         tData.CustomData.ErrorCode,
+		ErrorCategory:     tData.CustomData.ErrorCategory,
+		CorrelationID:     SplunkClient.correlationID,
+		CommitHash:        readCommonPipelineEnvironment("git/headCommitId"),
+		Branch:            readCommonPipelineEnvironment("git/branch"),
+		GitOwner:          readCommonPipelineEnvironment("github/owner"),
+		GitRepository:     readCommonPipelineEnvironment("github/repository"),
+		BuildURLHashLabel: tData.BuildURLHashLabel,
 	}
 }
 
