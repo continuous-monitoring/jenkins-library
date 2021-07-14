@@ -671,7 +671,7 @@ private void reportToInflux(script, config, deploySuccess, JenkinsUtils jenkinsU
         deployUser: deployUser,
         deployResult: deploySuccess?'SUCCESS':'FAILURE',
         cfApiEndpoint: config.cloudFoundry.apiEndpoint,
-        cfOrg: config.cloudFoundry.ocommonPipelineEnvironmentrg,
+        cfOrg: config.cloudFoundry.org,
         cfSpace: config.cloudFoundry.space,
     ]]
     influxWriteData script: script, customData: [:], customDataTags: [:], customDataMap: deploymentData, customDataMapTags: deploymentDataTags
